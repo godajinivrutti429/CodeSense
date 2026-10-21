@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: codesense-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    # Uncomment to enable GPU acceleration (requires nvidia-container-toolkit):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: codesense-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=codellama:7b
+      - CHROMA_PERSIST_DIR=/data/chroma
+      - AUTH_DB_PATH=/data/users.db
+      - AUTH_REQUIRED=false
+      - JWT_SECRET=change-me-in-production
+      - USE_RERANKER=true
+      - RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+      - EMBEDDING_MODEL=flax-sentence-embeddings/st-codesearch-distilroberta-base
+    volumes:
+      - chroma_data:/data
+      - ./uploaded_repos:/repos   # mount local repos here to index by path
+    depends_on:
+      - ollama
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: codesense-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://backend:8000
+    depends_on:
+      - backend
+
+volumes:
+  ollama_data:
+  chroma_data:

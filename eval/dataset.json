@@ -1,0 +1,77 @@
+[
+  {
+    "question": "Where is a new JWT access token created for a logged-in user?",
+    "expected_file": "backend/auth/auth.py",
+    "expected_function": "create_access_token"
+  },
+  {
+    "question": "Where does the app verify a user's password during login?",
+    "expected_file": "backend/auth/auth.py",
+    "expected_function": "authenticate_user"
+  },
+  {
+    "question": "Where does the code decide whether authentication is required for a request, falling back to a guest user?",
+    "expected_file": "backend/auth/auth.py",
+    "expected_function": "get_current_user"
+  },
+  {
+    "question": "Where is a git repository cloned to a local temporary directory?",
+    "expected_file": "backend/ingestion/repo_loader.py",
+    "expected_function": "clone_repo"
+  },
+  {
+    "question": "Where does the code walk a repo's directory tree and skip folders like node_modules or .git?",
+    "expected_file": "backend/ingestion/repo_loader.py",
+    "expected_function": "collect_source_files"
+  },
+  {
+    "question": "Where are source files parsed into function-level chunks using tree-sitter?",
+    "expected_file": "backend/ingestion/code_parser.py",
+    "expected_function": "_chunk_with_tree_sitter"
+  },
+  {
+    "question": "Where does the code fall back to paragraph-based chunking when tree-sitter isn't available?",
+    "expected_file": "backend/ingestion/code_parser.py",
+    "expected_function": "_chunk_plain_text"
+  },
+  {
+    "question": "Where is text converted into embedding vectors using sentence-transformers?",
+    "expected_file": "backend/ingestion/embedder.py",
+    "expected_function": "embed_texts"
+  },
+  {
+    "question": "Where are embeddings and metadata inserted into ChromaDB in batches?",
+    "expected_file": "backend/db/vector_store.py",
+    "expected_function": "add_chunks"
+  },
+  {
+    "question": "Where is an entire indexed repository removed from the vector database?",
+    "expected_file": "backend/db/vector_store.py",
+    "expected_function": "delete_collection"
+  },
+  {
+    "question": "Where does the app embed a user's question and search the vector store for relevant code?",
+    "expected_file": "backend/rag/retriever.py",
+    "expected_function": "retrieve"
+  },
+  {
+    "question": "Where is the final prompt assembled from retrieved code chunks and chat history before being sent to the LLM?",
+    "expected_file": "backend/rag/prompt_builder.py",
+    "expected_function": "build_prompt"
+  },
+  {
+    "question": "Where does the backend call the local Ollama server to stream a generated response token by token?",
+    "expected_file": "backend/rag/llm_client.py",
+    "expected_function": "generate_stream"
+  },
+  {
+    "question": "Where does the app check whether the local Ollama server is reachable?",
+    "expected_file": "backend/rag/llm_client.py",
+    "expected_function": "check_health"
+  },
+  {
+    "question": "Where is a newly ingested repo's collection name namespaced per user?",
+    "expected_file": "backend/main.py",
+    "expected_function": "ingest"
+  }
+]

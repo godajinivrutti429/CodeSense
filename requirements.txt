@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+pydantic>=2.12
+chromadb>=1.5
+sentence-transformers>=6.0
+requests
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+tree-sitter>=0.26
+tree-sitter-language-pack>=1.14
+streamlit>=1.64
+python-dotenv
+GitPython
